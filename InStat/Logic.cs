@@ -5,7 +5,6 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -368,8 +367,9 @@ namespace InStat
                 "https://www.instagram.com/sexyjapanese_girl/"
             };
             var url = urls[new Random().Next(urls.Count)];
-            try {
-                _driver.Navigate().GoToUrl(url );
+            try
+            {
+                _driver.Navigate().GoToUrl(url);
                 Thread.Sleep(3000);
                 var imgs = _driver.FindElementsByXPath("//article//img");
                 var src = new List<string> { };
@@ -380,17 +380,32 @@ namespace InStat
                 }
 
                 var random = new Random();
-                for (int i = 0; i < imgUrls.Length; i++) {
+                for (int i = 0; i < imgUrls.Length; i++)
+                {
                     imgUrls[i] = src[random.Next(src.Count)];
                 }
 
                 System.IO.File.WriteAllLines(@"E:\WriteText.txt", imgUrls);
             }
-            catch (Exception)  {
+            catch (Exception)
+            {
                 _driver.Quit();
             }
             _driver.Quit();
             return imgUrls;
+        }
+
+        internal void Randomize<T>(T[] items)
+        {
+            Random rand = new Random();
+            
+            for (int i = 0; i < items.Length - 1; i++)
+            {
+                int j = rand.Next(i, items.Length);
+                T temp = items[i];
+                items[i] = items[j];
+                items[j] = temp;
+            }
         }
     }
 }

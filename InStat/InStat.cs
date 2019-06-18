@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -31,6 +29,9 @@ namespace InStat
                 Random rnd = new Random();
                 var randCase = rnd.Next(1, 3);
                 var playersList = _availablePlayersDic.Keys.ToList();
+                var availablePlayers = _logic.GetAvailablePlayers().ToList();
+                var availablePlayersNotInPlayersList = _logic.GetAvailablePlayers().Except(playersList).ToArray();
+                int lengthMember = availablePlayersNotInPlayersList.Length;
 
                 lstBox1.Items.Clear();
                 lstBox2.Items.Clear();
@@ -91,6 +92,11 @@ namespace InStat
                         }
                         break;
                 }
+
+                // random for availablePlayersNotInPlayersList
+                _logic.Randomize(availablePlayersNotInPlayersList);
+                lstBox1.Items.AddRange(availablePlayersNotInPlayersList.Take((lengthMember+1)/2).ToArray());
+                lstBox2.Items.AddRange(availablePlayersNotInPlayersList.Skip((lengthMember+1)/2).ToArray());
             }
             else
             {
