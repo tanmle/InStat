@@ -91,9 +91,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(658, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 16);
+            this.label2.Size = new System.Drawing.Size(34, 16);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Team A";
+            this.label2.Text = "Red";
             // 
             // label3
             // 
@@ -101,9 +101,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(868, 43);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 16);
+            this.label3.Size = new System.Drawing.Size(45, 16);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Team B";
+            this.label3.Text = "Green";
             // 
             // lst_AvPlayers
             // 
@@ -290,6 +290,7 @@
             // 
             // lstBox1
             // 
+            this.lstBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.lstBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstBox1.FormattingEnabled = true;
             this.lstBox1.ItemHeight = 16;
@@ -300,6 +301,7 @@
             // 
             // lstBox2
             // 
+            this.lstBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.lstBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstBox2.FormattingEnabled = true;
             this.lstBox2.ItemHeight = 16;
