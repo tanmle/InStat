@@ -13,7 +13,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
-
+using OpenQA.Selenium.Chrome;
 
 namespace InStat
 {
@@ -238,14 +238,16 @@ namespace InStat
             var path = Environment.CurrentDirectory + "\\imgscr.PNG";
             var screenshotPath = Environment.CurrentDirectory + "\\team.PNG";
             var insertedImg = "";
-            if (imgUrl == "")
+            string[] imgs = getImageURLs(3);
+            if (imgs[0] == "" || imgs[0] == null)
             {
                 insertedImg = "http://hinhanhdephd.com/wp-content/uploads/2016/01/tai-hinh-girl-xinh-lam-avatar-de-thuong-nhat-22.jpg";
             }
             else
             {
-                insertedImg = imgUrl;
-
+                for (int i = 0; i < imgs.Length; i++) {
+                    insertedImg = insertedImg + "<img src = \"" + imgs[i] + "\"/><br>";
+                }
             }
 
             for (int i = 0; i < 10; i++)
@@ -282,12 +284,12 @@ namespace InStat
             msg.Body = "<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:48.0pt; " +
                        "color:#548dd4\">MƯA THÌ LÊN FACEBOOK CHECK. ĐỀ NGHỊ AE ĐI ĐÔNG ĐỦ, TRÁNH TÌNH TRẠNG THIẾU NGƯỜI.</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><u><span style=\"font-size:24.0pt;color:red\">THÔNG BÁO</span></u></b></p><p class=\"MsoNormal\" align=\"center\" " +
-                       "style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">5h45:00</span></u></b>" +
-                       "<b><span style=\"font-size:18.0pt\">, "+ date +", SÂN BÓNG ĐÁ</span></b><b><span style=\"font-size:48.0pt;color:red\"> DUY TÂN</span></b></p><br /><br /><p class=\"MsoNormal\" " +
+                       "style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">5h15:00</span></u></b>" +
+                       "<b><span style=\"font-size:18.0pt\">, " + date + ", SÂN BÓNG ĐÁ</span></b><b><span style=\"font-size:48.0pt;color:red\"> DUY TÂN</span></b></p><br /><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:18.0pt; color:#00b0f0\">SẼ DIỄN RA CUỘC CHIẾN KHÔNG HỒI KẾT GIỮA:</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:20.0pt;font-family:'Bernard MT Condensed','serif';color:#ffc000\">DITO TEAM </span></b><b><span style=\"font-size:18.0pt;" +
                        "color:red\">VS </span></b><b><span style=\"font-size:23.0pt;font-family:AnkeCalligraph\">ODIT TEAM</span></b></p><br \\><p class=\"MsoNormal\" align=\"center\" style=text-align:center;><span class=\"playerList\"><img src=\"cid:" + contentID + "\"/></span>" +
-                       "<span class=\"teamList\"><img src=\"cid:" + scrID + "\"/></span><span class=\"girlpic\"><img src='"+ insertedImg +"' alt= \"Girl\"/></span></p><br \\><p class=\"MsoNormal\"><b><u><span style=\"font-size:20.0pt;color:red\">RULE:</span></u></b>" +
+                       "<span class=\"teamList\"><img src=\"cid:" + scrID + "\"/></span><span class=\"girlpic\">"+ @insertedImg +"</span></p><br \\><p class=\"MsoNormal\"><b><u><span style=\"font-size:20.0pt;color:red\">RULE:</span></u></b>" +
                        "</p><p class=\"rule\" style=\"margin-left:1.0in\"><b><ul style=\"margin-left:10px; font-size:15.0pt\"><li>Đi trễ <= 5 phút: 10K</li><li>Đi trễ > 5 : 20K</li><li>Confirm mà không đi: 30K</li><li>Không confirm mà " +
                        "rúc đầu lên sân: 20K</li><li>Thèn giữ banh (Tân Lê) mà không đem banh: 50k</li><li>Điểm danh sau 19h (cùng ngày với email) sẽ không tính</li></ul></b></p>";
 
@@ -345,6 +347,50 @@ namespace InStat
             process.Start();
             process.StandardInput.WriteLine(command);
             Thread.Sleep(2000);
+        }
+
+        public string[] getImageURLs(int numberOfImage)
+        {
+            string[] imgUrls = new string[numberOfImage];
+
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("headless", "--blink-settings=imagesEnabled=false");
+            ChromeDriver _driver = new ChromeDriver(chromeOptions);
+            //_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(120));
+            var urls = new List<string> {
+                "https://www.instagram.com/vsbg.limited/",
+                "https://www.instagram.com/instababes.asian/",
+                "https://www.instagram.com/nobra.club.vnn/",
+                "https://www.instagram.com/bodyon_bikini/",
+                "https://www.instagram.com/chinese__girls/",
+                "https://www.instagram.com/sexy.hot.asian.models/",
+                "https://www.instagram.com/hot.sexy.asian.girls/",
+                "https://www.instagram.com/sexyjapanese_girl/"
+            };
+            var url = urls[new Random().Next(urls.Count)];
+            try {
+                _driver.Navigate().GoToUrl(url );
+                Thread.Sleep(3000);
+                var imgs = _driver.FindElementsByXPath("//article//img");
+                var src = new List<string> { };
+                for (int i = 0; i < imgs.Count; i++)
+                {
+                    string srcset = imgs[i].GetAttribute("srcset");
+                    src.Add(srcset.Substring(srcset.IndexOf("480w,") + 5, srcset.IndexOf(" 640w") - (srcset.IndexOf("480w,") + 5)));
+                }
+
+                var random = new Random();
+                for (int i = 0; i < imgUrls.Length; i++) {
+                    imgUrls[i] = src[random.Next(src.Count)];
+                }
+
+                System.IO.File.WriteAllLines(@"E:\WriteText.txt", imgUrls);
+            }
+            catch (Exception)  {
+                _driver.Quit();
+            }
+            _driver.Quit();
+            return imgUrls;
         }
     }
 }
