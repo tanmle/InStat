@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -279,18 +280,19 @@ namespace InStat
             // To make the image display as inline and not as attachment
             inlineLogo.ContentDisposition.Inline = true;
             inlineLogo.ContentDisposition.DispositionType = DispositionTypeNames.Inline;
+            var timeToDance = ConfigurationManager.AppSettings["Time"];
 
             msg.Body = "<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:48.0pt; " +
                        "color:#548dd4\">MƯA THÌ LÊN FACEBOOK CHECK. ĐỀ NGHỊ AE ĐI ĐÔNG ĐỦ, TRÁNH TÌNH TRẠNG THIẾU NGƯỜI.</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><u><span style=\"font-size:24.0pt;color:red\">THÔNG BÁO</span></u></b></p><p class=\"MsoNormal\" align=\"center\" " +
-                       "style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">5h30:00</span></u></b>" +
+                       $"style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">{timeToDance}</span></u></b>" +
                        "<b><span style=\"font-size:18.0pt\">, " + date + ", SÂN BÓNG ĐÁ</span></b><b><span style=\"font-size:48.0pt;color:red\"> DUY TÂN</span></b></p><br /><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:18.0pt; color:#00b0f0\">SẼ DIỄN RA CUỘC CHIẾN KHÔNG HỒI KẾT GIỮA:</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:20.0pt;font-family:'Bernard MT Condensed','serif';color:#ffc000\">DITO TEAM </span></b><b><span style=\"font-size:18.0pt;" +
                        "color:red\">VS </span></b><b><span style=\"font-size:23.0pt;font-family:AnkeCalligraph\">ODIT TEAM</span></b></p><br \\><p class=\"MsoNormal\" align=\"center\" style=text-align:center;><span class=\"playerList\"><img src=\"cid:" + contentID + "\"/></span>" +
                        "<span class=\"teamList\"><img src=\"cid:" + scrID + "\"/></span><span class=\"girlpic\">"+ @insertedImg +"</span></p><br \\><p class=\"MsoNormal\"><b><u><span style=\"font-size:20.0pt;color:red\">RULE:</span></u></b>" +
                        "</p><p class=\"rule\" style=\"margin-left:1.0in\"><b><ul style=\"margin-left:10px; font-size:15.0pt\"><li>Đi trễ <= 5 phút: 10K</li><li>Đi trễ > 5 : 20K</li><li>Confirm mà không đi: 30K</li><li>Không confirm mà " +
-                       "rúc đầu lên sân: 20K</li><li>Thèn giữ banh (Tân Lê) mà không đem banh: 50k</li><li>Điểm danh sau 19h (cùng ngày với email) sẽ không tính</li></ul></b></p>";
+                       "rúc đầu lên sân: 20K</li><li>Điểm danh sau 19h (cùng ngày với email) sẽ không tính</li></ul></b></p>";
 
             SmtpClient client = new SmtpClient();
             client.UseDefaultCredentials = true;
