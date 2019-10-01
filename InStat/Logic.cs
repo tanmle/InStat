@@ -249,7 +249,7 @@ namespace InStat
                 }
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 if (!File.Exists(path))
                 {
@@ -283,7 +283,7 @@ namespace InStat
             msg.Body = "<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:48.0pt; " +
                        "color:#548dd4\">MƯA THÌ LÊN FACEBOOK CHECK. ĐỀ NGHỊ AE ĐI ĐÔNG ĐỦ, TRÁNH TÌNH TRẠNG THIẾU NGƯỜI.</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><u><span style=\"font-size:24.0pt;color:red\">THÔNG BÁO</span></u></b></p><p class=\"MsoNormal\" align=\"center\" " +
-                       "style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">5h15:00</span></u></b>" +
+                       "style=\"text-align:center\"><b><span style=\"font-size:18.0pt;color:#00b0f0\">VÀO LÚC </span></b><b><u><span style=\"font-size:80.0pt;color:red\">5h30:00</span></u></b>" +
                        "<b><span style=\"font-size:18.0pt\">, " + date + ", SÂN BÓNG ĐÁ</span></b><b><span style=\"font-size:48.0pt;color:red\"> DUY TÂN</span></b></p><br /><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:18.0pt; color:#00b0f0\">SẼ DIỄN RA CUỘC CHIẾN KHÔNG HỒI KẾT GIỮA:</span></b></p><br /><p class=\"MsoNormal\" " +
                        "align=\"center\" style=\"text-align:center\"><b><span style=\"font-size:20.0pt;font-family:'Bernard MT Condensed','serif';color:#ffc000\">DITO TEAM </span></b><b><span style=\"font-size:18.0pt;" +
@@ -355,7 +355,7 @@ namespace InStat
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless", "--blink-settings=imagesEnabled=false");
             ChromeDriver _driver = new ChromeDriver(chromeOptions);
-            //_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(120));
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
             var urls = new List<string> {
                 "https://www.instagram.com/vsbg.limited/",
                 "https://www.instagram.com/instababes.asian/",
