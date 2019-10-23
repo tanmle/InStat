@@ -6,6 +6,7 @@ using Google.Apis.Util.Store;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace InStat
@@ -328,26 +330,17 @@ namespace InStat
                 File.Delete(imagePath);
             }
 
-            var process = new System.Diagnostics.Process();
-
-            // Start cmd at specific folder
-            var startInfo = new System.Diagnostics.ProcessStartInfo()
-            {
-                WorkingDirectory = path,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
-                FileName = "cmd.exe",
-                RedirectStandardInput = true,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true
-            };
-
-            // Execute js file
-            const string command = "phantomjs phantomJsCommand.js";
-            process.StartInfo = startInfo;
-            process.Start();
-            process.StandardInput.WriteLine(command);
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("headless", "--blink-settings=imagesEnabled=false");
+            ChromeDriver _driver = new ChromeDriver(chromeOptions);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
+            _driver.Manage().Window.Size = new Size(1280, 1024);
+            _driver.Navigate().GoToUrl("https://docs.google.com/spreadsheets/d/1hO0XZWeDyt2CpYlQi01L_KP0vxViZrvBb0bxESq_Jk4/edit#gid=944456593");
+            var ssdriver = _driver as ITakesScreenshot;
+            var screenshot = ssdriver.GetScreenshot();
+            screenshot.SaveAsFile(imagePath, ScreenshotImageFormat.Png);
             Thread.Sleep(2000);
+            _driver.Quit();
         }
 
         public string[] getImageURLs(int numberOfImage)
